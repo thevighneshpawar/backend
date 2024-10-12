@@ -2,10 +2,11 @@
 
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
+import {app} from './app.js'
 // when using db always use try catch and async await to avoid errors
 
 dotenv.config({
-        path:'./env'
+        path:'./.env'
 })
 
 // async functions return some promises

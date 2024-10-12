@@ -19,7 +19,7 @@ const userSchema = new Schema(
             lowercase:true,
             trim:true,
         },
-        fullname:{
+        fullName:{
             type:String,
             required:true,
             lowercase:true,
@@ -59,7 +59,7 @@ const userSchema = new Schema(
 userSchema.pre("save",async function (next){
     if(! this.isModified("password")) return next();
 
-    this.password =bcrypt.hash(this.password,10)
+    this.password = await bcrypt.hash(this.password,10)
     next()
 })
 
@@ -67,6 +67,10 @@ userSchema.pre("save",async function (next){
 userSchema.methods.isPasswordCorrect = async function(password){
      return await bcrypt.compare(password,this.password)
 }
+
+// modern practice has 2 tokens
+// Access token - short leaved(Authentication ,validate) ,
+// Refresh token - long leaved
 
 userSchema.methods.generateAccessToken = function(){
    return  jwt.sign(
